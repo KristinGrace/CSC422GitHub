@@ -169,21 +169,84 @@ public class PetOptions
     // UpdatePet
     public void UpdatePet()
     {
-        // Call the show pets to print the current pets
+        // Display the current pets
+        System.out.println("Current Pets:");
+        System.out.println("+-------------------------+");
+        System.out.println("| ID | NAME         | AGE |");
+        System.out.println("+-------------------------+");
+        for (int i = 0; i < pets.size(); i++) 
+        {
+            Pet pet = pets.get(i);
+            System.out.printf("| %2d | %-12s | %3d |\n", i, pet.getName(), pet.getAge());
+        }
+        System.out.println("+-------------------------+");
+
+        
         // Ask the user to enter the ID of the pet they want to change.
+        System.out.println("Please Enter the ID of the pet you would like to change: ");
+        int petID = reader.nextInt();
+
         // Ask the user to enter a new name and age for the pet at the id requested.
+        if (petID >= 0 && petID < pets.size()) 
+        {
+            // Ask the user to enter a new name and age for the pet.
+            System.out.println("Enter the new name for the pet: ");
+            String newName = reader.next();
+
+            System.out.println("Enter the new age for the pet: ");
+            int newAge = reader.nextInt();
+
+            // Update the pet's information at the specified index.
+            Pet petToUpdate = pets.get(petID);
+            petToUpdate.setName(newName);
+            petToUpdate.setAge(newAge);
+
+            System.out.println("Pet information updated successfully.");
+        } 
+        else // the pet was not found
+        {
+        System.out.println("Pet with ID (index) " + petID + " not found.");
+        }
+
         // print the change.
-        // menu
+        ShowPets();
+        
     }
     
     // RemovePet
     public void RemovePet()
     {
-        // Call the show pets to print the current pets
-        // Ask the user to enter the ID of the pet they want to remove.
-        // remove the pet from the array.
-        // print the change.
-        // menu.
+        // Display the current pets
+        System.out.println("Current Pets:");
+        System.out.println("+-------------------------+");
+        System.out.println("| ID | NAME         | AGE |");
+        System.out.println("+-------------------------+");
+        for (int i = 0; i < pets.size(); i++) 
+        {
+            Pet pet = pets.get(i);
+            System.out.printf("| %2d | %-12s | %3d |\n", i, pet.getName(), pet.getAge());
+        }
+        System.out.println("+-------------------------+");
+
+        // Ask the user to enter the ID of the pet they want to remove..
+        System.out.println("Please Enter the ID of the pet you would like to remove: ");
+        int petID = reader.nextInt();
+        
+        if (petID >= 0 && petID < pets.size()) 
+        {
+            // Remove the pet from the arrayList
+            pets.remove(petID);
+
+            // Inform the user that the pet has been removed
+            System.out.println("Pet with ID " + petID + " has been removed.");
+        } 
+        else 
+        {
+            System.out.println("Pet with ID " + petID + " not found.");
+        }
+
+        // Display the updated list of pets
+        ShowPets();
     }
     
     // Helper method for the searchPetByName and SearchPetByAge, to only show one pet.
@@ -289,6 +352,8 @@ public class PetOptions
     public void Exit()
     {
         // print "Thank you for using our database... goodbye :)"
+        System.out.println(" ");
+        System.out.println("Thank you for using our database... goodbye :)");
     }
     
     
