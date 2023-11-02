@@ -34,4 +34,15 @@ public class Pet
         return age;
     }
     
+    // set the pets name
+    public void setName(String name) 
+    {
+        this.name = name;
+    }
+
+    // set the pets age
+    public void setAge(int age) 
+    {
+        this.age = age;
+    }
 }

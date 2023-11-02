@@ -186,26 +186,103 @@ public class PetOptions
         // menu.
     }
     
+    // Helper method for the searchPetByName and SearchPetByAge, to only show one pet.
+    public void ShowSinglePet(Pet pet, int index) 
+    {
+        // Print the top design of the table.
+        System.out.println("+-------------------------+");
+        System.out.println("| ID | NAME         | AGE |");
+        System.out.println("+-------------------------+");
+
+        // Print the pet's information in the same format as in ShowPets.
+        System.out.printf("| %2d | %-12s | %3d |\n", index, pet.getName(), pet.getAge());
+
+        // Print the bottom design of the table.
+        System.out.println("+-------------------------+");
+        System.out.println(" ");
+    }
+    
     // SearchPetByName
     public void SearchPetByName()
     {
         // Ask the user for the name of the pet they want to search for
-        // if the user enters a name that is not in the array
-            // print this pet is not in the database.
-        // else
-            // call the ShowPets for the specific name.
+        System.out.println("Enter the name of the pet you want to search for: ");
+        String name = reader.next();
+        
+         ArrayList<Pet> searchedForPets = new ArrayList<>();
+        
+        
+        // Iterate through the list of pets to find pet with the specified name
+        for (int i = 0; i < pets.size(); i++) 
+        {
+            // get the pet at the current index.
+            Pet pet = pets.get(i);
+            
+            /// Check if the pet's name matches the searchName (case-insensitive)
+            if (pet.getName().equalsIgnoreCase(name)) 
+            {
+                searchedForPets.add(pet); // Collect matching pets in a list
+            }
+        }
+
+        if (!searchedForPets.isEmpty()) 
+        {
+            // Display the details of all the matching pets
+            System.out.println("Found matching pets:");
+            for (int i = 0; i < searchedForPets.size(); i++) 
+            {
+                ShowSinglePet(searchedForPets.get(i), i);
+            }
+        }   
+        else 
+        {
+            System.out.println("No pets with the name '" + name + "' found in the database.");
+        }
+    
         // menu.
+        Menu();
     }
     
     // SearchPetsByAge
     public void SearchPetByAge()
     {
-        // Ask the user for the age of the pet they want to search for
-        // if the user enters a age that is not in the array
-            // print this pet is not in the database.
-        // else
-            // call the ShowPets for the specific age.
+        // Ask the user for the name of the pet they want to search for
+        System.out.println("Enter the Age of the pet you want to search for: ");
+        int age = reader.nextInt();
+        
+         ArrayList<Pet> searchedForPets = new ArrayList<>();
+        
+        
+        // Iterate through the list of pets to find pet with the specified name
+        for (int i = 0; i < pets.size(); i++) 
+        {
+            // get the pet at the current index.
+            Pet pet = pets.get(i);
+            
+            /// Check if the pet's name matches the searchName (case-insensitive)
+            if (pet.getAge()== age) 
+            {
+                // Collect matching pets in a list
+                searchedForPets.add(pet); // Collect matching pets in a list
+            }
+        }
+
+        if (!searchedForPets.isEmpty()) 
+        {
+            // Display the details of all the matching pets
+            System.out.println("Found matching pets:");
+            for (int i = 0; i < searchedForPets.size(); i++) 
+            {
+                ShowSinglePet(searchedForPets.get(i), i);
+            }
+        }   
+        else 
+        {
+            System.out.println("No pets with the Age '" + age + "' found in the database.");
+        }
+    
         // menu.
+        Menu();
     }
     
     // Exit
