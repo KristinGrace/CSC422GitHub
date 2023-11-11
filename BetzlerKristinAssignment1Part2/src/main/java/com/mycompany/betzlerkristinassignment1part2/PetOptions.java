@@ -34,12 +34,10 @@ public class PetOptions
         System.out.println("---------------------------------");
         System.out.println("1 : Show all pets");
         System.out.println("2 : Add more pets");
-        System.out.println("3 : Update an existing pet");
-        System.out.println("4 : Remove an existing pet");
-        System.out.println("5 : Search for a pet by name");
-        System.out.println("6 : Search for a pet by age");
-        System.out.println("7 : Save the pet data");
-        System.out.println("9 : exit program");
+        System.out.println("3 : Search for a pet by name");
+        System.out.println("4 : Search for a pet by age");
+        System.out.println("5 : Save the pet data");
+        System.out.println("6 : exit program");
         System.out.println("---------------------------------");
         
          // Ask the user to type the num that corresponds to the desired action.
@@ -62,33 +60,23 @@ public class PetOptions
                // if the user chooses option 2 call the AddPets method
                AddPets();
            }
-            case 3 ->
-           {
-               // if the user chooses option 3 call the UpdatePet method
-               UpdatePet();
-           }
-            case 4 -> 
-           {
-               // if the user chooses option 4 call the RemovePet method
-               RemovePet();
-           }
-            case 5 -> 
+            case 3 -> 
            {
                // if the user chooses option 5 call the SearchPetByName method
                SearchPetByName();
            }
-            case 6 -> 
+            case 4 -> 
            {
                // if the user chooses option 6 call the SearchByAge methodd
                SearchPetByAge();
            }
-            case 7 ->
+            case 5 ->
             {
                 // Save the pet data
                 savePetData();
             }
 
-            case 8 ->
+            case 6 ->
            {
                // if the user chooses option 7 call exit.
                Exit();
@@ -137,45 +125,83 @@ public class PetOptions
     }
     
     // AddPets
-    public void AddPets()
+    public void AddPets() 
     {
-        // Ask the user how many pets they want to create
-        System.out.println("How many Pets would you like to add? ");
-        int numPets = reader.nextInt();
-        
-        // Consume the newline character
-        reader.nextLine();
-    
-        // while not at that num 
-        while(pets.size() < numPets)
+        // Calculate the remaining capacity in the database
+        int remainingCapacity = 5 - pets.size();
+
+        // Check if the remaining capacity is zero or negative
+        if (remainingCapacity <= 0) 
         {
-            System.out.println(" ");
-            // Ask the user for the pet's name and age together.
-            System.out.println("Please enter the pet's name and age (e.g., Name Age): ");
-            String input = reader.nextLine();
+            System.out.println("Error: The pet database is full. Cannot add more pets.");
+        } 
+        else 
+        {
+            // Ask the user how many pets they want to create
+            System.out.println("How many Pets would you like to add? (Maximum: " + remainingCapacity + ")");
+            int numPets = reader.nextInt();
 
-            // Split the input into name and age.
-            String[] parts = input.split(" ");
-            if (parts.length == 2) 
+            // Consume the newline character
+            reader.nextLine();
+
+            // Check if the requested number of pets is greater than the remaining capacity
+            if (numPets > remainingCapacity) 
             {
-                String newName = parts[0];
-                int newAge = Integer.parseInt(parts[1]);
-
-                // Create the pet.
-                Pet newPet = new Pet(newName, newAge);
-
-                // Put the pet into the array.
-             pets.add(newPet);
-            }
-            else
+                System.out.println("Error: Cannot add more than the remaining capacity (" + remainingCapacity + ") pets.");
+            } 
+            else 
             {
-            System.out.println("Invalid input. Please enter the name and age separated by a space.");
+                // Loop through until the specified number of pets are added
+                for (int i = 0; i < numPets; i++) 
+                {
+                    System.out.println(" ");
+                    // Ask the user for the pet's name and age together.
+                    System.out.println("Please enter the pet's name and age (e.g., Name Age): ");
+                    String input = reader.nextLine();
+
+                    // Split the input into name and age.
+                    String[] parts = input.split(" ");
+                    if (parts.length == 2) 
+                    {
+                        String newName = parts[0];
+                        try 
+                        {
+                            int newAge = Integer.parseInt(parts[1]);
+
+                            // Check if the age is within the valid range
+                            if (newAge < 1 || newAge > 20) 
+                            {
+                                System.out.println("Error: Age should be between 1 and 20.");
+                                i--;  // Decrement i to repeat the current iteration
+                                continue;
+                            }
+
+                            // Create the pet.
+                            Pet newPet = new Pet(newName, newAge);
+
+                            // Put the pet into the array.
+                            pets.add(newPet);
+                        } 
+                        catch (NumberFormatException e) 
+                        {
+                            System.out.println("Error: Invalid age input.");
+                            i--;  // Decrement i to repeat the current iteration
+                        }
+                    } 
+                    else 
+                    {
+                        System.out.println("Invalid input. Please enter the name and age separated by a space.");
+                        i--;  // Decrement i to repeat the current iteration
+                    }
+                }
             }
         }
-        
-        // menu
+
+        // Go back to the menu
         Menu();
     }
+
+
     
     // UpdatePet
     public void UpdatePet()
