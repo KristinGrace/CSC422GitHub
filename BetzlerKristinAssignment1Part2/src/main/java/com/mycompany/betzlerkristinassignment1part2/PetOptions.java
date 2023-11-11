@@ -9,6 +9,10 @@ package com.mycompany.betzlerkristinassignment1part2;
  * @author Kristin
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList; // import the ArrayList class
 
@@ -34,7 +38,8 @@ public class PetOptions
         System.out.println("4 : Remove an existing pet");
         System.out.println("5 : Search for a pet by name");
         System.out.println("6 : Search for a pet by age");
-        System.out.println("7 : exit program");
+        System.out.println("7 : Save the pet data");
+        System.out.println("9 : exit program");
         System.out.println("---------------------------------");
         
          // Ask the user to type the num that corresponds to the desired action.
@@ -78,6 +83,12 @@ public class PetOptions
                SearchPetByAge();
            }
             case 7 ->
+            {
+                // Save the pet data
+                savePetData();
+            }
+
+            case 8 ->
            {
                // if the user chooses option 7 call exit.
                Exit();
@@ -348,6 +359,76 @@ public class PetOptions
         Menu();
     }
     
+    // Load pet data from a text file
+    public void loadPetData() 
+    {
+        try 
+        {
+            // Create a File object representing the pet_data.txt file
+            File file = new File("pet_data.txt");
+
+            // Open a Scanner to read from the file
+            try (Scanner fileReader = new Scanner(file)) 
+            {
+                // Read each line from the file
+                while (fileReader.hasNextLine()) 
+                {
+                    String line = fileReader.nextLine();
+
+                    // Split the line into parts using a space as a delimiter
+                    String[] parts = line.split(" ");
+
+                    // Check if there are exactly two parts (name and age)
+                    if (parts.length == 2) 
+                    {
+                        // Extract the name and age from the parts
+                        String name = parts[0];
+                        int age = Integer.parseInt(parts[1]);
+
+                        // Create a new Pet object and add it to the pets ArrayList
+                        pets.add(new Pet(name, age));
+                    }
+                }
+            }
+        } 
+        catch (FileNotFoundException e) 
+        {
+            // Handle the case where the file is not found
+            System.out.println("Error loading pet data. File not found.");
+        }
+    }
+
+    // Call this method in the main method before displaying the menu
+    public void initialize() 
+    {
+        // Load pet data when the program starts
+        loadPetData();
+        // Display the main menu
+        Menu();
+    }
+
+// Save pet data to a text file
+    public void savePetData() 
+    {
+        try {
+            // Create a FileWriter to write to the pet_data.txt file
+            try (FileWriter fileWriter = new FileWriter("pet_data.txt")) 
+            {
+                // Iterate through each pet in the ArrayList
+                for (Pet pet : pets) 
+                {
+                    // Write the pet's name and age to the file, followed by a newline character
+                    fileWriter.write(pet.getName() + " " + pet.getAge() + "\n");
+                }
+        }
+    } 
+        catch (IOException e) 
+        {
+            // Handle the case where an error occurs while saving pet data
+            System.out.println("Error saving pet data.");
+        }
+}
+
     // Exit
     public void Exit()
     {

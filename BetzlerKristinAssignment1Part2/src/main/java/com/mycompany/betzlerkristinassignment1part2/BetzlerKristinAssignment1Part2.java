@@ -17,7 +17,8 @@ public class BetzlerKristinAssignment1Part2
         // Create an instance of the PetOptions class.
         PetOptions petOptions = new PetOptions();
 
-        // Call the menu method to display the menu for pet options.
-        petOptions.Menu();
+
+    // Call the initialize method to load pet data and display the menu.
+        petOptions.initialize();
     }
 }
